@@ -5,29 +5,21 @@ const emailInput = document.querySelector('input[name="email"]');
 const messageInput = document.querySelector('textarea[name="message"]');
 const LOCALSTORAGE_KEY = 'feedback-form-state';
 
-// function saveToLocalStorage() {
-//   try {
-//     const feedback = {
-//       email: emailInput.value,
-//       message: messageInput.value,
-//     };
-//     localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(feedback));
-//   } catch (error) {
-//     console.error('Error saving to localStorage:', error);
-//   }
-// }
+function getFeedback() {
+  const feedback = {
+    email: emailInput.value,
+    message: messageInput.value,
+  };
+  return feedback;
+}
 
-const saveToLocalStorage = throttle(e => {
+const saveToLocalStorage = e => {
   try {
-    const feedback = {
-      email: emailInput.value,
-      message: messageInput.value,
-    };
-    localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(feedback));
+    localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(getFeedback()));
   } catch (error) {
     console.error('Error saving to localStorage:', error);
   }
-}, 500);
+};
 
 window.addEventListener('load', () => {
   try {
@@ -43,10 +35,12 @@ window.addEventListener('load', () => {
 
 const sumbitForm = event => {
   event.preventDefault();
+  console.log(getFeedback());
   emailInput.value = '';
   messageInput.value = '';
-  //   localStorage.clear();
+  localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(getFeedback()));
+  // console.log(getFeedback());
 };
 
-form.addEventListener('input', saveToLocalStorage);
+form.addEventListener('input', throttle(saveToLocalStorage, 500));
 form.addEventListener('submit', sumbitForm);
