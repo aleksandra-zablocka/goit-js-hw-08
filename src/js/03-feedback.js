@@ -33,6 +33,15 @@ window.addEventListener('load', () => {
   }
 });
 
+// Dodatkowa walidacja - zeby uniknąć przesyłania pustego formularza:
+// function validateForm() {
+//   if (!messageInput.value.trim() || !emailInput.value.trim()) {
+//     alert('Please complete both fields');
+//     return false;
+//   }
+//   return true;
+// }
+
 const sumbitForm = event => {
   event.preventDefault();
   console.log(getFeedback());
